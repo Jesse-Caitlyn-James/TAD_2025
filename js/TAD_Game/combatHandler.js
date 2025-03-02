@@ -53,8 +53,6 @@ export class CombatHandler {
                 this.enemyFire(player);
                 break;
         }
-
-        // move
     }
 
     enemyPatrol(tiles, player) {
@@ -73,6 +71,8 @@ export class CombatHandler {
                 for (let i = 0; i < tiles.tileGroup.length; i++) {
                     let tile = tiles.tileGroup[i];
 
+                    // @JAMES this is where i wanna check if it overlaps
+                    // I hope i haven't done a big dumb but i gave up just short of diving back into the lib
                     if (this.enemy.sightLine.overlaps(tile)) {
                         if (tile.wall) {
                             safe = false;
@@ -141,7 +141,7 @@ export class CombatHandler {
 
 
         let playerDist = $.math.distance(player.player.x, player.player.y, this.enemy.x, this.enemy.y);
-        if (playerDist < 400) {
+        if (playerDist > 200) {
             this.enemy.FSMState = "hunt";
             this.enemy.target = player.player;
         }
