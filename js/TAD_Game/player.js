@@ -1,5 +1,3 @@
-import { Projectile } from "./projectile.js";
-
 export class Player {
     constructor(x, y, w, h, speed){
         this.create(x,y,w,h);
@@ -17,40 +15,82 @@ export class Player {
         this.player.draw();
     }
 
-    move(){
+    move(tiles){
         if($.keys.down("a") || $.keys.down("leftArrow")){
-            this.player.x -= this.speed;
+            for (let i = 0; i < tiles.tileGroup.length; i++) {
+                let tile = tiles.tileGroup[i];
+                tile.x += this.speed;
+                if (tile.type == "wall"){
+                    // weird things happen when a second bounce without input occurs
+                    // probs something to do with the -speed
+                    // -speed is bad yucky
+                    if(tile.overlaps(this.player)){
+                        for(let j = 0; j < tiles.tileGroup.length; j++){
+                            let newTile = tiles.tileGroup[j];
+                            newTile.x = newTile.lastX;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
         if($.keys.down("w") || $.keys.down("upArrow")){
-            this.player.y -= this.speed;
+            for (let i = 0; i < tiles.tileGroup.length; i++) {
+                let tile = tiles.tileGroup[i];
+                tile.y += this.speed;
+                if (tile.type == "wall"){
+                    // weird things happen when a second bounce without input occurs
+                    // probs something to do with the -speed
+                    // -speed is bad yucky
+                    if(tile.overlaps(this.player)){
+                        for(let j = 0; j < tiles.tileGroup.length; j++){
+                            let newTile = tiles.tileGroup[j];
+                            newTile.y = newTile.lastY;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
         if($.keys.down("s") || $.keys.down("downArrow")){
-            this.player.y += this.speed;
+            for (let i = 0; i < tiles.tileGroup.length; i++) {
+                let tile = tiles.tileGroup[i];
+                tile.y -= this.speed;
+                if (tile.type == "wall"){
+                    // weird things happen when a second bounce without input occurs
+                    // probs something to do with the -speed
+                    // -speed is bad yucky
+                    if(tile.overlaps(this.player)){
+                        for(let j = 0; j < tiles.tileGroup.length; j++){
+                            let newTile = tiles.tileGroup[j];
+                            newTile.y = newTile.lastY;
+                        }
+                        break;
+
+                    }
+                }
+            }
         }
 
         if($.keys.down("d") || $.keys.down("rightArrow")){
-            this.player.x += this.speed;
+            for (let i = 0; i < tiles.tileGroup.length; i++) {
+                let tile = tiles.tileGroup[i];
+                tile.x -= this.speed;
+                if (tile.type == "wall"){
+                    // weird things happen when a second bounce without input occurs
+                    // probs something to do with the -speed
+                    // -speed is bad yucky
+                    if(tile.overlaps(this.player)){
+                        for(let j = 0; j < tiles.tileGroup.length; j++){
+                            let newTile = tiles.tileGroup[j];
+                            newTile.x = newTile.lastX;
+                        }
+                        break;
+                    }
+                }
+            }
         }
-    }
-
-    createProjectile(){
-        let rotation = 360 - this.player.rotation;
-        let c = this.player.w/2 + 10;
-        let b = Math.cos(rotation * Math.PI/180) * c;
-        let a = Math.sqrt(Math.abs(Math.pow(b, 2) - Math.pow(c, 2)));
-
-        let x;
-        let y = this.player.y + b;
-
-        if(rotation >= 180){
-            x = this.player.x - a;
-        } else {
-            x = this.player.x + a;
-        }
-
-        let projectile = new Projectile(x, y, this.player.rotation - 180);
-        return projectile.projectile;
     }
 }

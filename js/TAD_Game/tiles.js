@@ -11,11 +11,7 @@ export class Tiles{
                 let tile = $.makeBoxCollider(j * this.size + this.size/2, i * this.size + this.size/2, this.size, this.size);
                 tile.blockID = patternRow[j];
                 tile.fill = "rgb("+patternRow[j]+","+patternRow[j]+","+patternRow[j]+")";
-
-                if(tile.blockID == 1){
-                    tile.wall = true;
-                    tile.static = true;
-                }
+                tile.static = true;
 
                 tile.direction = 180;
 
@@ -26,5 +22,10 @@ export class Tiles{
 
     draw(){
         this.tileGroup.draw();
+
+        for (let i = 0; i < this.tileGroup.length; i++){
+            this.tileGroup[i].lastX = this.tileGroup[i].x;
+            this.tileGroup[i].lastY = this.tileGroup[i].y;
+        }
     }
 }
