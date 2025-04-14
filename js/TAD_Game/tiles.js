@@ -21,11 +21,11 @@ export class Tiles{
     }
 
     draw(){
-        this.tileGroup.draw();
-
         for (let i = 0; i < this.tileGroup.length; i++){
             this.tileGroup[i].lastX = this.tileGroup[i].x;
             this.tileGroup[i].lastY = this.tileGroup[i].y;
         }
+        
+        this.tileGroup.draw();
     }
 }
